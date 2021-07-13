@@ -134,11 +134,38 @@ sudo systemctl status nginx
 config.vm.synced_folder " (1) ", "(2) "
 
 # (1) The first parameter is a path to a directory on the host machine.
-#(2) The second parameter must be an absolute path of where to share the folder within the guest machine.
+# (2) The second parameter must be an absolute path of where to share the folder within the guest machine.
 # You can check this path by typying in `pwd` in your VM
 ```
 
+- If you want to sync everything froom current location of vagrantfile, replace the whole path with a dot .
+```
+- config.vm.synced_folder '.', '/home/vagrant/NEW_FILE_NAME'
+```
 
+- To run provision file once sinc is happening (in vagrantfile):
+```
+config.vm.provision "shell", path:"./PATH/provision.sh"
+
+```
+- To create a varaible:
+```
+env name=Niki
+```
+To make the variable persistent:
+```
+export name=Niki
+
+```
+
+- To check all variables:
+```
+env
+```
+- To check for specific variable:
+```
+printenv name
+```
 
 
 
