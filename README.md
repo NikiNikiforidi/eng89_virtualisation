@@ -4,7 +4,7 @@
 -  `vagrant up` to launch the vm
 - `vagrant destroy` to delete everything
 - `vagrant reload` to reload any new instructions in our `Vagrantfile`
-- `vagrant halt` it poses the
+- `vagrant halt` it pauses the
  -`vagrant status` 
 #### `vagrant` shows a lost of commands:
 
