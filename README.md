@@ -206,7 +206,9 @@ sudo apt-get install nodejs -y
 ```
 sudo npm install pm2 -g
 ```
-- if everything has installed correctly, you should add (in the VM APP folder):
+- ------------------------------------------------------------------
+**Run Sparta Global app**
+- if everything has installed correctly, you should add (in the VM -> APP folder):
 ```
 node app.js
 
@@ -247,6 +249,31 @@ Vagrant.configure("2") do |config|
 end
 ```
 - ----------------------------------------------------------------
+**Put everything in the provision.sh file:**
+
+```
+!#/bin/bash
+
+sudo apt-get update -y
+sudo apt-get upgrade -y
+sudo apt-get install nginx -y
+sudo systemctl status nginx
+
+# Install to pass test
+sudo apt-get install nodejs -y
+sudo apt-get install python-software-properties -y
+curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+sudo apt-get install nodejs -y
+sudo npm install pm2 -g -y
+
+systemctl status nginx
+npm install -y
+npm start
+
+
+
+```
+- --------------------------
 **Wednesday 14th**
 
 - To write something and save it to a file that doesn't exist 
@@ -254,9 +281,4 @@ end
 sudo "ADD_TEXT" >> test.text
 
 ```
- - To add to another file 
-```
-
-
-
-```
+ 
