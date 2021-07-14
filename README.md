@@ -215,15 +215,6 @@ node app.js
 - If ouopen your browser and type the ip and post number (http://192.168.10.100:3000/) and should get a Sparta Global welcom page.
 - Additionally, if you type this (http://192.168.10.100:3000/fibonacci/6) in the browser ypu should get another page that returns the fibonacci number of 6. Note: it doesn't have to be the number 6, can be anythingls
 
-- -------------------------------------------------
-- Once you have finished all these steps, no tests should fail and you can launch the app
-- enter `sync_folder`(the clone folder) then `app` and run:
-```
-sudo npm install
-
-```
-
-
 
 - -----------------------------------------------
 ### Vagrantfile looks like:
