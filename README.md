@@ -39,9 +39,9 @@
      winrm           executes commands on a machine via WinRM
      winrm-config    outputs WinRM configuration to connect to the machine
 ```
+- More info at: https://www.vagrantup.com/
 
-
-
+- -------------------------------------------------------------------------------------------------------
 
 - Let's `ssh` into our vm an dlaunch nginx web-server
 - use `apt-get` package manager in Linux. It's used to install/uninstall any packages 
@@ -85,7 +85,8 @@
 
 -`vagrant halt`
 
-- ----------------------------------------------------
+- -------------------------------------------------------------
+
 
 **Reload/Destroy vagrant**
 - 1) `vagrant reload` (if this does not work, you will have to `vagrant destroy` and then do `vagrant up` again)
@@ -128,7 +129,7 @@ sudo apt-get upgrade -y
 sudo apt-get install nginx -y
 sudo systemctl status nginx
 ```
-- To sync add below code in vagrantfile :
+- To sync local host file (provision.sh) to VM, add below code in vagrantfile :
 
 ```
 config.vm.synced_folder " (1) ", "(2) "
@@ -148,6 +149,9 @@ config.vm.synced_folder " (1) ", "(2) "
 config.vm.provision "shell", path:"./PATH/provision.sh"
 
 ```
+- ------------------------------------------------
+**Persistant variable**
+
 - To create a varaible:
 ```
 env name=Niki
@@ -166,6 +170,102 @@ env
 ```
 printenv name
 ```
+- -----------------------------------------------
+
+### Spec Test
+
+- go to environment -> spec-test file and enter:
+```
+gem install bundler
+
+```
+- to run test, must be in the spec test folder:
+```
+
+rake spec
+```
+- 3 tests fail. nodejs, nodejs --version and pm2
+- to install nodejs (done in VM)
+
+```
+sudo apt-get install nodejs -y
+```
+- to stall nodejs --version (in VM)(run each line seperatly) 
+
+```
+sudo apt-get install python-software-properties -y
+```
+```
+curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+```
+- and then:
+```
+sudo apt-get install nodejs -y
+```
+- Finally, to install pm2 (in vm)
+```
+sudo npm install pm2 -g
+```
+- if everything has installed correctly, you should add (in the VM APP folder):
+```
+node app.js
+
+```
+- You should get a message that says: Your app is ready and listening on port 3000
+- If ouopen your browser and type the ip and post number (http://192.168.10.100:3000/) and should get a Sparta Global welcom page.
+- Additionally, if you type this (http://192.168.10.100:3000/fibonacci/6) in the browser ypu should get another page that returns the fibonacci number of 6. Note: it doesn't have to be the number 6, can be anythingls
+
+- -------------------------------------------------
+- Once you have finished all these steps, no tests should fail and you can launch the app
+- enter `sync_folder`(the clone folder) then `app` and run:
+```
+sudo npm install
+
+```
 
 
 
+- -----------------------------------------------
+### Vagrantfile looks like:
+
+```
+
+Vagrant.configure("2") do |config|
+  
+
+  config.vm.box = "ubuntu/xenial64"
+  # using ubuntu 16.04 LTS box
+  
+  # let's connect to nginx using private ip
+    config.vm.network "private_network", ip: "192.168.10.100"
+  # we would like to load this ip using our host machine's browser
+  # to view default nginx page
+   
+    config.hostsupdater.aliases = ["development.local"]
+    # if the plugin is installed correctly and file is update with vagrant destroy then vagrant up
+    # we should be able to see nginx page in the browser with http://development.local 
+
+
+
+    config.vm.synced_folder ".", "/home/vagrant/sync_folder"
+    # If you want to sync everything froom current location of vagrant file, replace the whole path with a dot .
+    # config.vm.synced_folder '.', "/home/vagrant/environment"
+    
+
+    config.vm.provision "shell", path:"./environment/provision.sh"
+end
+```
+- ----------------------------------------------------------------
+**Wednesday 14th**
+
+- To write something and save it to a file that doesn't exist 
+```
+sudo "ADD_TEXT" >> test.text
+
+```
+ - To add to another file 
+```
+
+
+
+```
