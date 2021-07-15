@@ -13,9 +13,9 @@ sudo apt-get install nodejs -y
 sudo npm install pm2 -g -y
 # systemctl status nginx
 
-cd /home/vagrant/
-sudo echo export DB_HOST="mongodb://192.168.10.150:27017/posts" >> .profile
-source ~/.bashrc
+#cd /home/vagrant/
+#sudo echo export DB_HOST="mongodb://192.168.10.150:27017/posts" >> ~/.bashrc
+#source ~/.bashrc
 
 
 cd /sync_folder/app/
