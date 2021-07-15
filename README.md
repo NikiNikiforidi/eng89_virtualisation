@@ -1,6 +1,7 @@
 # Setting up Development Env
 ## Installation of Vagrant, virtual box and Ruby
 ### Vagrant Commands
+- `vagrant init` creates a new vagrantfile in a directory
 -  `vagrant up` to launch the vm
 - `vagrant destroy` to delete everything
 - `vagrant reload` to reload any new instructions in our `Vagrantfile`
@@ -271,7 +272,6 @@ npm install -y
 npm start
 
 
-
 ```
 - --------------------------
 **Wednesday 14th**
@@ -281,4 +281,14 @@ npm start
 sudo "ADD_TEXT" >> test.text
 
 ```
- 
+ - -----------------------------------
+ ### Launch app
+
+ - Step 1: Open VM and open `/ect`
+ - Step 2: open `nginx/`
+ - Step 3: open `sites-available`
+ - Step 4: Go back to `/home/vagrant` directory
+ - step 5: Open `sync_folder` -> `app`
+ - Step 6: run: `npm start`
+ - Should get a reply that says:Your app is ready and listening on port 3000
+- Now you should be able to open Sparta Global welcome page app while only using the ip ( no port required) : http://192.168.10.100/
