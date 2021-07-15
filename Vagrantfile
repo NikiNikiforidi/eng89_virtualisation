@@ -6,7 +6,7 @@
   # using ubuntu 16.04 LTS box
   
   # let's connect to nginx using private ip
- #   config.vm.network "private_network", ip: "192.168.10.100"
+#  config.vm.network "private_network", ip: "192.168.10.100"
   # we would like to load this ip using our host machine's browser
   # to view default nginx page
    
@@ -37,11 +37,13 @@ Vagrant.configure("2") do |config|
    app.hostsupdater.aliases = ["development.local"]
    app.vm.synced_folder ".", "/home/vagrant/sync_folder"
    app.vm.provision "shell", path:"./environment/provision.sh"
+
  end
 
  config.vm.define "db" do |db|
    db.vm.box = "ubuntu/xenial64"
    db.vm.network "private_network", ip:"192.168.10.150"
+   db.vm.provision "shell", path:"./environment/db/provision.sh"
    db.hostsupdater.aliases = ["database.local"]
  end
 

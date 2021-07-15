@@ -313,6 +313,7 @@ Vagrant.configure("2") do |config|
    app.hostsupdater.aliases = ["development.local"]
    app.vm.synced_folder ".", "/home/vagrant/sync_folder"
    app.vm.provision "shell", path:"./environment/provision.sh"
+   app.vm.provision "shell", path:"./environment/db/provision.sh"
  end
 
 # Configuring a new machine and configuring it and giving it a private ip
@@ -329,7 +330,7 @@ end
 
 - **Install mongodb**
 - Create new db folder on OS: environment -> db
-- Create `provision.sh` file onin db folder and add this:
+- Create `provision.sh` file on OS in db folder and add this:
 
 ```
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv D68FA50FEA312927
@@ -347,13 +348,26 @@ sudo systemctl restart mongodb
 sudo systemctl enable mongod
 ```
 
-- Open up db VM (`vagrant ssh db`)
+- **Open db VM (vagrant ssh db)**
 - From home location go to `cd /etc` -> `cat mongod.conf`
 - Scroll down to:`# network interfaces` and change bindIP to ` bindIp: 0.0.0.0`
 - To change bindIP type `sudo nano mongod.conf`
 
+- **Open APP VM (vagrant ssh app)**
 
-- Need to create an persistant  environment variable DB_HOST:
+- Need to create an persistant environment variable DB_HOST:
 - This connects to mongodb with given ip that connects to the post. 
 
 `sudo echo export DB_HOST="mongodb://192.168.10.150:27017/posts" >> ~/.bashrc`
+
+- Need to run the source file to reload the information
+`source ~/.bashrc`
+
+- To check if varaible exists, run `env` or `printenv DB_HOST`
+
+- Go to app folder: `sync_folder` -> `app`
+- Start app with `npm start`
+- If all goes well, Check web http://192.168.10.100:3000/posts
+- You should see the 'Recent Posts' and additional information, if not follow next steps:
+- In `app` directory open `seeds` and run `node seed.js`
+- Go back to `app` directory, run `nmp start` and all should work
