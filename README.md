@@ -292,3 +292,68 @@ sudo "ADD_TEXT" >> test.text
  - Step 6: run: `npm start`
  - Should get a reply that says:Your app is ready and listening on port 3000
 - Now you should be able to open Sparta Global welcome page app while only using the ip ( no port required) : http://192.168.10.100/
+
+
+- -----------------------------------
+**Thursday 15**
+### Multi Machines
+- This multimachine was created in the same foldes as above.
+- Mauall
+
+- Change Vagrantfile to:
+- This creates a multi machine in one vagrantfile. The main one is app and the new one is db
+
+```
+
+Vagrant.configure("2") do |config|
+
+ config.vm.define "app" do |app|
+   app.vm.box = "ubuntu/xenial64"
+   app.vm.network "private_network", ip:"192.168.10.100"
+   app.hostsupdater.aliases = ["development.local"]
+   app.vm.synced_folder ".", "/home/vagrant/sync_folder"
+   app.vm.provision "shell", path:"./environment/provision.sh"
+ end
+
+# Configuring a new machine and configuring it and giving it a private ip
+ config.vm.define "db" do |db|
+   db.vm.box = "ubuntu/xenial64"
+   db.vm.network "private_network", ip:"192.168.10.150"
+   db.hostsupdater.aliases = ["database.local"]
+ end
+
+end
+
+
+```
+
+- **Install mongodb**
+- Create new db folder on OS: environment -> db
+- Create `provision.sh` file onin db folder and add this:
+
+```
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv D68FA50FEA312927
+echo "deb https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.2.list
+
+sudo apt-get update -y
+sudo apt-get upgrade -y
+
+sudo apt-get install -y mongodb-org=3.2.20 mongodb-org-server=3.2.20 mongodb-org-shell=3.2.20 mongodb-org-mongos=3.2.20 mongodb-org-tools=3.2.20
+
+sudo rm /etc/mongod.conf
+sudo ln -s /home/vagrant/environment/mongod.conf /etc/mongod.conf
+
+sudo systemctl restart mongodb
+sudo systemctl enable mongod
+```
+
+- Open up db VM (`vagrant ssh db`)
+- From home location go to `cd /etc` -> `cat mongod.conf`
+- Scroll down to:`# network interfaces` and change bindIP to ` bindIp: 0.0.0.0`
+- To change bindIP type `sudo nano mongod.conf`
+
+
+- Need to create an persistant  environment variable DB_HOST:
+- This connects to mongodb with given ip that connects to the post. 
+
+`sudo echo export DB_HOST="mongodb://192.168.10.150:27017/posts" >> ~/.bashrc`
