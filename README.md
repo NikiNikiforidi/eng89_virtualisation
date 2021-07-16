@@ -60,8 +60,7 @@ sudo apt-get install name_of_package
 
 - We will install nginx in our guest machine /VM/ubuntu 16.04
 - Launch the defult nginx page in host machine's browser
-
-
+$~~~~~~~~~~~$
 - To come out of your VM `exit`
 - Install nginx `sudo apt-get install nginx -y`
 - checking status of nginx `systemctl status nginx`
