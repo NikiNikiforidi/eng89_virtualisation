@@ -281,6 +281,35 @@ npm start
 sudo "ADD_TEXT" >> test.text
 
 ```
+- --------------------------------------
+### Reverse Proxi
+
+- In VM, open /etc -> nginx -> sites_available (defualt file available)
+- Edit default file `sudo nano default`
+- Delete everything and update with :
+```
+server {
+    listen 80;
+
+    server_name _;
+    location / {
+        proxy_pass http://192.168.10.100:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+
+```
+- To check configuration `sudo nginx -t` 
+- Will return a success message if correct syntax
+- Restart nginx : `sudo systemctl restart nginx` (loads new config in default)
+- Good practice to check status with `sudo systemctl status nginx`
+
+- To launch app open env -> app
+- Run `npm` start
  - -----------------------------------
  ### Launch app
 
@@ -313,13 +342,14 @@ Vagrant.configure("2") do |config|
    app.hostsupdater.aliases = ["development.local"]
    app.vm.synced_folder ".", "/home/vagrant/sync_folder"
    app.vm.provision "shell", path:"./environment/provision.sh"
-   app.vm.provision "shell", path:"./environment/db/provision.sh"
+  
  end
 
 # Configuring a new machine and configuring it and giving it a private ip
  config.vm.define "db" do |db|
    db.vm.box = "ubuntu/xenial64"
    db.vm.network "private_network", ip:"192.168.10.150"
+   db.vm.provision "shell", path:"./environment/db/provision.sh"
    db.hostsupdater.aliases = ["database.local"]
  end
 
@@ -358,7 +388,7 @@ sudo systemctl enable mongod
 - Need to create an persistant environment variable DB_HOST:
 - This connects to mongodb with given ip that connects to the post. 
 
-`sudo echo export DB_HOST="mongodb://192.168.10.150:27017/posts" >> ~/.bashrc`
+`sudo echo export DB_HOST="mongodb://192.168.10.150:27017/posts" >> ~/.bashrc `
 
 - Need to run the source file to reload the information
 `source ~/.bashrc`
@@ -370,4 +400,4 @@ sudo systemctl enable mongod
 - If all goes well, Check web http://192.168.10.100:3000/posts
 - You should see the 'Recent Posts' and additional information, if not follow next steps:
 - In `app` directory open `seeds` and run `node seed.js`
-- Go back to `app` directory, run `nmp start` and all should work
+- Go back to `app` directory, run `npm start` and all should work
