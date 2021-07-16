@@ -1,13 +1,13 @@
 # Setting up Development Env
-## Installation of Vagrant, virtual box and Ruby
+## Monday 12th, Installation of Vagran and setting up virtual box and Ruby
 ### Vagrant Commands
 - `vagrant init` creates a new vagrantfile in a directory
--  `vagrant up` to launch the vm
+- `vagrant up` to launch the vm
 - `vagrant destroy` to delete everything
 - `vagrant reload` to reload any new instructions in our `Vagrantfile`
 - `vagrant halt` it pauses the
- -`vagrant status` 
-#### `vagrant` shows a lost of commands:
+- `vagrant status` 
+**`vagrant` shows a list of commands:**
 
 ```
    autocomplete    manages autocomplete installation on host
@@ -41,27 +41,35 @@
      winrm-config    outputs WinRM configuration to connect to the machine
 ```
 - More info at: https://www.vagrantup.com/
+- To get info about the VM, run `uname -a`
 
 - -------------------------------------------------------------------------------------------------------
+### Additional information and commands
 
-- Let's `ssh` into our vm an dlaunch nginx web-server
-- use `apt-get` package manager in Linux. It's used to install/uninstall any packages 
-- To use the command in `admin` mode we use `sude` before the command
-- `sudo apt-get upgrade -y` 
-- `sudo apt-get update -y`
-- `ping www.bbc.co.uk`
-- `sudo apt-get install name_of_package`
-- To work in `admin mode` at all times (not recommended) `sudo -su` and you'll land in admin mode
-- We will install nginx in our guest machine/VM/ubuntu 16.04
-- launch the defult nginx page in host machine's browser
+- Let's `ssh` into our VM and launch nginx web-server
+- `apt-get` is used to install/uninstall any packages 
+- To use the command in `admin` mode we use `sude` before the command, Example
+```
+sudo apt-get upgrade -y
+sudo apt-get update -y
+ping www.bbc.co.uk
+sudo apt-get install name_of_package
+```
+- ------------------------------------------------------------------------
+### Installing and running nginx
+
+- We will install nginx in our guest machine /VM/ubuntu 16.04
+- Launch the defult nginx page in host machine's browser
+
+
 - To come out of your VM `exit`
-- install nginx `sudo apt-get install nginx -y`
+- Install nginx `sudo apt-get install nginx -y`
 - checking status of nginx `systemctl status nginx`
-- restart `systemctl restart nginx`
-- just to start `systemctl start nginx`
+- Restart `systemctl restart nginx`
+- Just to start `systemctl start nginx`
 
 - ----------------------------------------------
-**Installing plugin**
+###Installing plugin
 
 - step 1: Install the plugin: vagrant plugin install vagrant-hostsupdater
 
@@ -117,7 +125,7 @@
 
 - --------------------------------------------
 
-**Tuesday  13, syncing folders**
+## Tuesday  13, syncing folders
 
 - Step1, vagrent destroy
 - step2. Create provision.sh folder and add below code:
