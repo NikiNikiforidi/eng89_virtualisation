@@ -117,6 +117,8 @@ sudo apt-get install nginx -y
 **Added app and environment folder to our directory**
 <br>
   
+
+  
 </br>
 - step2. Create provision.sh folder and add below code:
 - (make sure top 3 line has -y otherwise it wil geet stuck)
