@@ -11,9 +11,8 @@ sudo apt-get install -y --allow-downgrades mongodb-org=3.2.20 mongodb-org-server
 #sudo rm /etc/mongod.conf
 #sudo ln -s /home/vagrant/environment/mongod.conf /etc/mongod.conf
 
-sudo systemctl restart mongod
-sudo systemctl enable mongod
-
 cd /etc/
 sudo sed -i 's/bindIp: 127.0.0.1/bindIp: 0.0.0.0/g' mongod.conf
 
+sudo systemctl restart mongod
+sudo systemctl enable mongod

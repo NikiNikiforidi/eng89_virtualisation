@@ -42,91 +42,82 @@
 ```
 - More info at: https://www.vagrantup.com/
 - To get info about the VM, run `uname -a`
-
+- -------------------------------------------------------------
+**Reload/Destroy vagrant**
+- `vagrant reload` reloads vagrant 
+- If this does not work, you will have to:
+```
+vagrant destroy
+vagrant up 
+vagrant ssh 
+```
 - -------------------------------------------------------------------------------------------------------
 ### Additional information and commands
 
 - Let's `ssh` into our VM and launch nginx web-server
 - `apt-get` is used to install/uninstall any packages 
-- To use the command in `admin` mode we use `sude` before the command, Example
+- To use the command in `admin` mode we use `sude` before the command, Example (in your VM)
 ```
 sudo apt-get upgrade -y
 sudo apt-get update -y
-ping www.bbc.co.uk
 sudo apt-get install name_of_package
 ```
 - ------------------------------------------------------------------------
-### Installing and running nginx
+### Installing and running nginx manually
+- Run following code in VM to install and check status of bginx
+```
+ sudo apt-get update -y
+ sudo apt-get upgrade -y
+ sudo apt-get install nginx
+ sudo systemctl status nginx
+  ```
+  **in order to see nginx in our browser, we need to connect it with a private ip** 
 
-- We will install nginx in our guest machine /VM/ubuntu 16.04
-- Launch the defult nginx page in host machine's browser
-<br> </br>
-- To come out of your VM `exit`
-- Install nginx `sudo apt-get install nginx -y`
-- checking status of nginx `systemctl status nginx`
-- Restart `systemctl restart nginx`
-- Just to start `systemctl start nginx`
+- In vagrant file add,`config.vm.network "private_network", ip: "192.168.10.100"`
+- (load ip using host machine browser to view default nginx page)
+- ningx status active should load nginx in the browswer with 192.168.10.100 
 
-- ----------------------------------------------
-###Installing plugin
+- ------------------------------------------------------------
+**To replace ip in browser with something more user friendly**
+<br></br>
+- This is not a necessary step for code functionality
+- Install plugin in OS: `vagrant plugin install vagrant-hostsupdater`
+- In Vagrantfile add, `config.hostsupdater.aliases = ["development.locat"]` 
+- Reload or destroy vagrant to save alterations
+- Go to browser and write: http://development.local/
 
-- step 1: Install the plugin: vagrant plugin install vagrant-hostsupdater
-
-- step 2: vagrant destroy
-
-- step 3: add this line of code into Vagrantfile config.hostsupdater.aliases = ["development.local"]
-
-    - To check status `vagrant status`, nothing should be running
-
-- step 4: vagrant up
-
-- step 5: vagrant ssh
-
-- step 6: repeat all the update and upgrade commands followed by installing nginx and checking of nginx
-  -`sudo apt-get update -y`
-  - `sudo apt-get upgrade -y `
-  - `sudo apt-get install nginx`
-  - `sudo systemctl status nginx`
-
-
-- ningx status active should load nginx in the browswer with 192.168.10.100 as well as http://development.local/
-
--`vagrant halt`
-
-- -------------------------------------------------------------
-
-
-**Reload/Destroy vagrant**
-- 1) `vagrant reload` (if this does not work, you will have to `vagrant destroy` and then do `vagrant up` again)
-- 2) `vagrant ssh` Opens VM
-- 3) `systemctl status nginx` 
-- 4) Go to browser and write: http://development.local
-- exit) control + c to exit
 - ---------------------------------------------------- 
-- Lets automate the tast that we did manually earlier today
-- Create a file called `provision.sh`. Add below code to new file: 
 
-- make sure to add `#!/bin/bash`
-- `sudo apt-get update -y`
-- `sude apt-get upgrade -y`
-- `sudo apt-get install nginx` (if making an automated file, make sure you write `-y` at the end of this line)
-- `sudo systemctl status nginx `
+## Introduction to provision
 
-- To run provision.sh we need to give file permission and make this file exceutable
-- To change permission we use `chmod` with required permission then file name
-- `chmod +x provision.sh`
-
-
-- `sudo chmod +x provision.sh` Change permission as admin . It turns green when completed
--To run `sudo ./provision.sh`
-
-
-
+- Create a file called `provision.sh` and add below code
+- Create file `sudo nano provision.sh`
+```
+#!/bin/bash
+sudo apt-get update -y
+sude apt-get upgrade -y
+sudo apt-get install nginx -y
+```
+- When creating an automated file, make sure you write `-y` at the end of the line
+<br></br>
+- To run provision.sh we need to give file permission and make this file exceutable.
+- In VM, to run provision.sh, run: `sudo chmod +x provision.sh`
+- chmod changes permission
+- The file turns green when changed.
+- To run file run `sudo ./provision.sh`
+- What ever is in your provision file will automatically run and install
 - --------------------------------------------
-
+**Extra**
+- Run `top` to display every proccess running
+- `ps aux` everything running in the foreground
+- To manually kill process `sudo kill process_id` 
+- -----------------------------------
 ## Tuesday  13, syncing folders
 
-- Step1, vagrent destroy
+**Added app and environment folder to our directory**
+<br>
+  
+</br>
 - step2. Create provision.sh folder and add below code:
 - (make sure top 3 line has -y otherwise it wil geet stuck)
 ```
