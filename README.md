@@ -118,6 +118,18 @@ sudo apt-get install nginx -y
 <br>
   
 
+
+
+
+
+
+
+
+
+
+
+
+
   
 </br>
 - step2. Create provision.sh folder and add below code:
